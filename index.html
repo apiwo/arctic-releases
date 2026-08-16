@@ -27,7 +27,24 @@
 
   <section>
   <div class="release latest">
-    <h3>Alpha 1.2.2<span class="tag">latest</span></h3>
+    <h3>Alpha 1.2.3<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
+    <ul>
+      <li>the compiler is on the image - clang and lld, so it can build without downloading one first</li>
+      <li>alpm speaks one language: add installs, rem removes, repo add adds a repository - ins and del are gone</li>
+      <li>llvm shipped llvm-lit's count and not, which toybox owns, so installing anything needing mesa stopped dead</li>
+      <li>mesa and vulkan-loader install now; graphics failed entirely before</li>
+      <li>wireless waits for the link before asking for an address - a correct passphrase used to end in DHCP failed</li>
+      <li>the network you install over is carried into the installed system, beside the wired one</li>
+      <li>arcticfetch is off the login, and zsh loads autosuggestions and nothing else</li>
+      <li>the boot banner is a rule and a title rather than a full-width row of punctuation</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.2.3/Arctic-linux-a1.2.3.iso">Download a1.2.3</a>
+    <div class="sha">sha256 <code>996af053e5033c08202434468bc3fe104a2ac01107c9c8e29343267605f6d353</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 1.2.2</h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
     <ul>
       <li>the compiler is on the image now - clang and lld, so it can build without downloading one first</li>
@@ -97,7 +114,7 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-a1.2.2.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-a1.2.3.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
     <p>the version counts in three positions: <code>a1</code> is the release,
