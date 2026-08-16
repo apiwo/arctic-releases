@@ -27,7 +27,24 @@
 
   <section>
   <div class="release latest">
-    <h3>Alpha 1.23<span class="tag">latest</span></h3>
+    <h3>Alpha 1.24<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
+    <ul>
+      <li>a boot partition that failed to mount was ignored - the bootloader went into a directory on the root filesystem and the machine did not boot</li>
+      <li>the compiler is on the image: clang and lld, no download first</li>
+      <li>alpm speaks one language - add installs, rem removes, repo add adds a repository; ins and del are gone</li>
+      <li>llvm shipped llvm-lit's count and not, which toybox owns, so anything needing mesa stopped on a conflict</li>
+      <li>mesa and vulkan-loader install; graphics failed entirely before</li>
+      <li>wireless waits for the link before asking for an address, and retries the lease</li>
+      <li>the network you install over is carried into the installed system, beside the wired one</li>
+      <li>arcticfetch is off the login, zsh loads autosuggestions only, and the boot banner is a rule rather than a row of punctuation</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.24/Arctic-linux-a1.24.iso">Download a1.24</a>
+    <div class="sha">sha256 <code>180f4c03859c661cb22aad750a0e92e0e61dbae7319c110032594b8a309504a9</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 1.23</h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
     <ul>
       <li>the compiler is on the image - clang and lld, so it can build without downloading one first</li>
@@ -98,13 +115,14 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-a1.23.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-a1.24.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
-    <p>the version counts in three positions: <code>a1</code> is the release,
-    the first digit after the dot moves for a major bugfix, the second for minor
-    fixes. the digits are read one at a time, not as a decimal — <code>a1.23</code>
-    follows <code>a1.22</code>, and there is never a second dot.</p>
+    <p>one dot, and the digits after it are read one at a time — not as a
+    decimal and not as further dotted fields. <code>a1</code> is the release,
+    the first digit after the dot moves for a major bugfix and the second for
+    minor fixes: <code>a1.23</code> follows <code>a1.22</code>, and
+    <code>a1.3</code> is the next major bugfix after <code>a1.29</code>.</p>
   </section>
 
   <footer>
