@@ -27,7 +27,22 @@
 
   <section>
   <div class="release latest">
-    <h3>Alpha 2<span class="tag">latest</span></h3>
+    <h3>Alpha 2.1<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer &middot; <strong>not fully tested</strong></p>
+    <ul>
+      <li>Alpha 2 fixed wireless and then broke it a second way: the supplicant was invoked with -f to capture a log, and -f is compiled in by CONFIG_DEBUG_FILE which this build does not set</li>
+      <li>an unknown option makes wpa_supplicant print its usage and exit without ever touching the radio, so association was never attempted - and the log the failure printed was that usage text</li>
+      <li>the option had been checked with wpa_supplicant -h on the build host, whose build does accept -f; flags are checked against the binary Arctic ships now</li>
+      <li>a supplicant that never started counted as started, because -B forks and the exit status says nothing about whether it survived - the control socket and the process are checked now</li>
+      <li>udhcpc names its script explicitly rather than relying on a compiled-in default, and its output goes to a log instead of /dev/null</li>
+      <li>everything from Alpha 2 is still here: the wpa_passphrase fix, the missing ctrl_interface, the regulatory database, and root=UUID= which is what lets an installed system boot at all</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2.1/Arctic-linux-a2.1.iso">Download a2.1</a>
+    <div class="sha">sha256 <code>cadf9cb207973d8f57a71bafeb6d425b843959ab5275a49ae97bf13bd65a547f</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 2</h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer &middot; <strong>not fully tested</strong></p>
     <ul>
       <li>wireless could never have associated on any network - wpa_passphrase reading from a pipe exits 1 without writing anything, so the config had no network block in it at all and the 30s timeout blamed a passphrase that was always correct</li>
@@ -132,7 +147,7 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-a2.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-a2.1.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
   </section>
