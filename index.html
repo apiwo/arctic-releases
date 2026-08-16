@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arctic Linux — releases</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav class="topbar">
+  <a href="https://arctic-linux.apiwow.net">main page</a>
+  <a href="https://github.com/apiwo/arctic-linux-pkgs">pkg</a>
+  <a href="https://ports-arctic.apiwow.net">ports</a>
+  <a href="https://arctic-docs.apiwow.net">docs</a>
+  <a href="https://arctic-releases.apiwow.net">releases</a>
+  <a href="https://github.com/apiwo/arctic-linux">github</a>
+  <a href="https://codeberg.org/apiwo/arctic-linux">codeberg</a>
+</nav>
+
+<div class="wrap">
+
+  <header class="hero">
+    <h1>releases</h1>
+    <span class="tagline">every Arctic Linux image, newest first, and what changed in each</span>
+  </header>
+
+  <section>
+  <div class="release latest">
+    <h3>Alpha 1.2.2<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
+    <ul>
+      <li>the compiler is on the image now - clang and lld, so it can build without downloading one first</li>
+      <li>wireless waits for the link before asking for an address; a correct passphrase used to end in DHCP failed</li>
+      <li>the wireless connection you install over is carried into the installed system, beside the wired one</li>
+      <li>arcticfetch no longer runs on every login</li>
+      <li>zsh loads autosuggestions and nothing else</li>
+      <li>the boot banner is a rule and a title rather than a full-width row of punctuation</li>
+      <li>initialization is listed and documented as the default init</li>
+      <li>the no-compiler advice names llvm, a package that exists, instead of base-devel</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.2.2/Arctic-linux-a1.2.2.iso">Download a1.2.2</a>
+    
+  </div>
+
+  <div class="release">
+    <h3>Alpha 1.2.1</h3>
+    <p class="when">x86_64 &middot; 492 MiB &middot; live image and installer</p>
+    <ul>
+      <li>alpm add installs and alpm rem removes</li>
+      <li>alpm rem -a takes what the package left behind, -d its dependencies, -f forces it</li>
+      <li>repositories are alpm repo add &lt;url&gt;</li>
+      <li>mesa installed its drivers into /usr/lib64, which does not exist here - nothing could load them</li>
+      <li>vulkan-loader is packaged; the drivers are of no use without it</li>
+      <li>mesa declares the Vulkan and VA drivers it contains, so asking for vulkan-radeon resolves</li>
+      <li>choosing nvidia says the proprietary driver is not packaged instead of installing nothing silently</li>
+      <li>the old verbs - ins, del - still work</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.2.1/Arctic-linux-a1.2.1.iso">Download a1.2.1</a>
+    <div class="sha">sha256 <code>1a5309744ac26354a913cff811cc98346e23d6d5e6acf48e4791d605c4300fea</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 1.2</h3>
+    <p class="when">x86_64 &middot; 383 MiB &middot; live image and installer</p>
+    <ul>
+      <li>an installed machine had an address and a route but no resolver, so every lookup failed</li>
+      <li>wifi-connect scans, lists what is in range and takes the passphrase masked</li>
+      <li>iw is on the image - nothing there could list a network before</li>
+      <li>mesa 26.0.2 with the Intel drivers, which were missing entirely</li>
+      <li>the Xfce 4.20 desktop, openbox and icewm are packaged</li>
+      <li>initialization, the fork of nitro, is the default init</li>
+      <li>the installer asks before writing a bootloader and names the partition</li>
+      <li>nvidia and nouveau are configured, with a reboot notice</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.2/Arctic-linux-a1.2.iso">Download a1.2</a>
+    <div class="sha">sha256 <code>387c84d9b22199c1b3e1e481c1e280f29c7077bc940b970566989c6fd427a1d9</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 1.1</h3>
+    <p class="when">x86_64 &middot; 382 MiB &middot; live image and installer</p>
+    <ul>
+      <li>the install runs end to end from the network repositories</li>
+      <li>the live session could come up with no network at all</li>
+      <li>lzo shipped no shared library, so mkfs.btrfs could not start</li>
+      <li>the repository indexes were weeks out of date behind a CDN</li>
+      <li>alpm system upgrade and alpm system fix</li>
+      <li>toybox claimed 27 commands other packages own - the install stopped at /usr/bin/blkid</li>
+      <li>wpa_supplicant pulled OpenSSL in beside libressl, leaving no curl and no NetworkManager</li>
+      <li>the live image's wget was toybox's, which cannot speak https</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.1/Arctic-linux-a1.1.iso">Download a1.1</a>
+    <div class="sha">sha256 <code>89735185b8d203fbafbb7d90ddf6edc84b1f62f174959f6121a0502ac2c917d3</code></div>
+  </div>
+  </section>
+
+  <section>
+    <h2>writing one</h2>
+    <pre class="code">dd if=Arctic-linux-a1.2.2.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
+    stick, with nothing needed to write it.</p>
+    <p>the version counts in three positions: <code>a1</code> is the release,
+    the second moves for a major bugfix, the third for minor fixes. they are
+    positions and not a decimal — <code>a1.2</code> is later than
+    <code>a1.1.9</code>.</p>
+  </section>
+
+  <footer>
+    arctic's own code is BSD-2-Clause. packaged software keeps its own licence.
+  </footer>
+
+</div>
+</body>
+</html>
