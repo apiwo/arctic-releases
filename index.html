@@ -27,7 +27,7 @@
 
   <section>
   <div class="release latest">
-    <h3>Alpha 1.2.3<span class="tag">latest</span></h3>
+    <h3>Alpha 1.23<span class="tag">latest</span></h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
     <ul>
       <li>the compiler is on the image - clang and lld, so it can build without downloading one first</li>
@@ -39,29 +39,13 @@
       <li>arcticfetch is off the login, and zsh loads autosuggestions and nothing else</li>
       <li>the boot banner is a rule and a title rather than a full-width row of punctuation</li>
     </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.2.3/Arctic-linux-a1.2.3.iso">Download a1.2.3</a>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.23/Arctic-linux-a1.23.iso">Download a1.23</a>
     <div class="sha">sha256 <code>996af053e5033c08202434468bc3fe104a2ac01107c9c8e29343267605f6d353</code></div>
   </div>
 
-  <div class="release">
-    <h3>Alpha 1.2.2</h3>
-    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
-    <ul>
-      <li>the compiler is on the image now - clang and lld, so it can build without downloading one first</li>
-      <li>wireless waits for the link before asking for an address; a correct passphrase used to end in DHCP failed</li>
-      <li>the wireless connection you install over is carried into the installed system, beside the wired one</li>
-      <li>arcticfetch no longer runs on every login</li>
-      <li>zsh loads autosuggestions and nothing else</li>
-      <li>the boot banner is a rule and a title rather than a full-width row of punctuation</li>
-      <li>initialization is listed and documented as the default init</li>
-      <li>the no-compiler advice names llvm, a package that exists, instead of base-devel</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.2.2/Arctic-linux-a1.2.2.iso">Download a1.2.2</a>
-    
-  </div>
 
   <div class="release">
-    <h3>Alpha 1.2.1</h3>
+    <h3>Alpha 1.21</h3>
     <p class="when">x86_64 &middot; 492 MiB &middot; live image and installer</p>
     <ul>
       <li>alpm add installs and alpm rem removes</li>
@@ -73,7 +57,7 @@
       <li>choosing nvidia says the proprietary driver is not packaged instead of installing nothing silently</li>
       <li>the old verbs - ins, del - still work</li>
     </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.2.1/Arctic-linux-a1.2.1.iso">Download a1.2.1</a>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.21/Arctic-linux-a1.21.iso">Download a1.21</a>
     <div class="sha">sha256 <code>1a5309744ac26354a913cff811cc98346e23d6d5e6acf48e4791d605c4300fea</code></div>
   </div>
 
@@ -114,13 +98,13 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-a1.2.3.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-a1.23.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
     <p>the version counts in three positions: <code>a1</code> is the release,
-    the second moves for a major bugfix, the third for minor fixes. they are
-    positions and not a decimal — <code>a1.2</code> is later than
-    <code>a1.1.9</code>.</p>
+    the first digit after the dot moves for a major bugfix, the second for minor
+    fixes. the digits are read one at a time, not as a decimal — <code>a1.23</code>
+    follows <code>a1.22</code>, and there is never a second dot.</p>
   </section>
 
   <footer>
