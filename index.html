@@ -27,7 +27,24 @@
 
   <section>
   <div class="release latest">
-    <h3>Alpha 1.24<span class="tag">latest</span></h3>
+    <h3>Alpha 2<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer &middot; <strong>not fully tested</strong></p>
+    <ul>
+      <li>wireless could never have associated on any network - wpa_passphrase reading from a pipe exits 1 without writing anything, so the config had no network block in it at all and the 30s timeout blamed a passphrase that was always correct</li>
+      <li>nothing wrote a ctrl_interface, so wpa_cli could never connect and the error told you to run a command that could not work</li>
+      <li>no installed system could boot: the installer wrote root=PARTUUID= and busybox findfs implements LABEL= and UUID= only, so every install finished, reported success, and stopped in the initramfs shell</li>
+      <li>fstab had the same problem, which is why /boot would not mount either; both are UUID= now and the initramfs falls back to LABEL=arctic-root so older installs come up</li>
+      <li>the image carries a regulatory database - without one the kernel sits in world domain 00 where most 5 GHz channels are receive-only, so an access point shows in a scan and the card may not transmit to it</li>
+      <li>the firewall had no package at all: nftables fell back to compiling inside the target and failed, and the install reported success anyway</li>
+      <li>the boot was right-aligned against column 80 of a 240-column console, and every service reported t=0.0s</li>
+      <li>the live session prints how to install Arctic instead of a hardware inventory</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2/Arctic-linux-a2.iso">Download a2</a>
+    <div class="sha">sha256 <code>b4972b233eda64f30717d8271f2787b752f3315a326d40f2836f6e56491fdf2b</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 1.24</h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
     <ul>
       <li>a boot partition that failed to mount was ignored - the bootloader went into a directory on the root filesystem and the machine did not boot</li>
@@ -115,7 +132,7 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-a1.24.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-a2.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
   </section>
