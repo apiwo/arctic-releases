@@ -27,7 +27,20 @@
 
   <section>
   <div class="release latest">
-    <h3>Alpha 2.4<span class="tag">latest</span></h3>
+    <h3>Alpha 2.5<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
+    <ul>
+      <li>the boot could look hung for twenty seconds with no warning - the coldplug step walks every modalias under /sys and modprobes each one serially, several hundred on real hardware, printing nothing the whole time</li>
+      <li>it is backgrounded now and prints a dot once a second while it runs, the same way wifi-connect's own silent scan already does</li>
+      <li>PAM is packaged - library and the standard module set, nothing built against it yet, busybox's login and su need no authentication stack and stay exactly as they are</li>
+      <li>this is what unblocks ly and anything else that wants PAM, without touching what already works</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2.5/Arctic-linux-a2.5.iso">Download a2.5</a>
+    <div class="sha">sha256 <code>3b6934b07f784bb4ef38d2a8a0c518dd11f009b8499942280115559ec943f94b</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 2.4</h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
     <ul>
       <li>a fresh install could never get onto wireless: iw was on the live image but never landed on the installed system, so first boot had wpa_supplicant and nothing that could scan for a network to use it with</li>
@@ -192,7 +205,7 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-a2.4.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-a2.5.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
   </section>
