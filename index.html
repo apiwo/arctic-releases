@@ -27,7 +27,19 @@
 
   <section>
   <div class="release latest">
-    <h3>Alpha 2.2<span class="tag">latest</span></h3>
+    <h3>Alpha 2.3<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
+    <ul>
+      <li>the installer was throwing away its own error - target_alpm ran alpm with no output capture at all, so every failing step's log had nothing beyond the step name, and "the base system failed to install" was the entire post-mortem whatever actually went wrong</li>
+      <li>alpm's output is captured into the install log now, and a failure prints the last twelve lines of it instead of the one sentence it was called with</li>
+      <li>install.conf's commented A_INIT example read initialization, the init that has been known to freeze at boot since a2.2; it reads busybox, the actual default, with a note on why</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2.3/Arctic-linux-a2.3.iso">Download a2.3</a>
+    <div class="sha">sha256 <code>1fc2f8c26d4f430e0daef13ca4bd414f8dbbe02370532491bb5aa66b62545807</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 2.2</h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
     <ul>
       <li>no installed system could be logged into: util-linux-libs, a package whose own name says libraries only, shipped util-linux's entire program set including /bin/login, which links libpam over busybox's login applet which links nothing</li>
@@ -164,7 +176,7 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-a2.2.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-a2.3.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
   </section>
