@@ -27,7 +27,23 @@
 
   <section>
   <div class="release latest">
-    <h3>Alpha 2.3<span class="tag">latest</span></h3>
+    <h3>Alpha 2.4<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
+    <ul>
+      <li>a fresh install could never get onto wireless: iw was on the live image but never landed on the installed system, so first boot had wpa_supplicant and nothing that could scan for a network to use it with</li>
+      <li>iw and wireless-regdb are installed onto the target now, and installing network tools is no longer optional - a machine with no network path is a worse failure than stopping the install while the medium is still in the drive</li>
+      <li>arctic-install fetches repositories itself, first, rather than running against whatever the live session's index happened to already be</li>
+      <li>a failed install left the disk mounted, so a retry hit mke2fs refusing to format it - the target is unmounted before formatting and on any failure now</li>
+      <li>the prompt is one line, not two - the arrow is the end of the line, not a line of its own below it</li>
+      <li>tab completion works without a hidden, unanswerable prompt about directory permissions on first boot</li>
+      <li>the first-login message has no mascot, matching the live session</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2.4/Arctic-linux-a2.4.iso">Download a2.4</a>
+    <div class="sha">sha256 <code>4f563f49d30fb3f1e8673aec9afead93618fba9c4dca49b53a907452730cf65a</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 2.3</h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
     <ul>
       <li>the installer was throwing away its own error - target_alpm ran alpm with no output capture at all, so every failing step's log had nothing beyond the step name, and "the base system failed to install" was the entire post-mortem whatever actually went wrong</li>
@@ -176,7 +192,7 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-a2.3.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-a2.4.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
   </section>
