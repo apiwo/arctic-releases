@@ -27,7 +27,24 @@
 
   <section>
   <div class="release latest">
-    <h3>Alpha 2.1<span class="tag">latest</span></h3>
+    <h3>Alpha 2.2<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
+    <ul>
+      <li>no installed system could be logged into: util-linux-libs, a package whose own name says libraries only, shipped util-linux's entire program set including /bin/login, which links libpam over busybox's login applet which links nothing</li>
+      <li>every base install pulls it in for libblkid and libmount, so every install replaced a working login with one that could not start - it builds --disable-all-programs now and ships 45 files, none of them a program</li>
+      <li>dwm died on libharfbuzz.so.0 - freetype links it and never declared it</li>
+      <li>every installed machine called itself Alpha 1.1: arctic-install carried its own version literal and copied it into the installed system's release file, so the boot banner said so on every boot</li>
+      <li>the boot banner is gone, and a service line is now [ done ], [ fail ] or [ skip ] with no elapsed time</li>
+      <li>initialization is no longer the default init - a machine installed with it froze partway through boot and never reached a login; busybox is the default and initialization is a deliberate choice</li>
+      <li>limine's violet backdrop, which read as a pink wash behind the boot menu, matches the terminal background</li>
+      <li>the ASCII penguin is gone from the live session</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2.2/Arctic-linux-a2.2.iso">Download a2.2</a>
+    <div class="sha">sha256 <code>77bda9785d75f4d2cdecf66ee9d63a6a163867a721deaabf9455e86cbb0eaa03</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 2.1</h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer &middot; <strong>not fully tested</strong></p>
     <ul>
       <li>Alpha 2 fixed wireless and then broke it a second way: the supplicant was invoked with -f to capture a log, and -f is compiled in by CONFIG_DEBUG_FILE which this build does not set</li>
@@ -147,7 +164,7 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-a2.1.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-a2.2.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
   </section>
