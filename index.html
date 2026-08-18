@@ -27,7 +27,23 @@
 
   <section>
   <div class="release">
-    <h3>Alpha 2.5<span class="tag">latest</span></h3>
+    <h3>Alpha 3 SS<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
+    <ul>
+      <li>new version scheme: main.bigfix.smallfix plus a stability suffix (U/VS/S/SS - SS is super stable, the top of the scale, not a lesser tier than plain "stable"). This release closes out everything since Alpha 2 under the old aN.NN numbering</li>
+      <li>clang could not run at all on a freshly installed system - libc++/libc++abi/libunwind install into a target-triple subdirectory by LLVM's own CMake defaults, and nothing pointed the dynamic linker at it, so every source build (alpm add -s) failed before compiling a single line. This was masked all cycle by the sandboxed build host's own library search path bleeding through its bind mount; a real arctic-install target with no host underneath caught it</li>
+      <li>every fresh btrfs install kernel-panicked ("Attempted to kill init!") - the initramfs was missing rootflags=subvol=@ on the kernel command line</li>
+      <li>nmtui shipped with a hardcoded build-host path instead of a real libnewt.so soname and could not start; NetworkManager and wifi-connect no longer fight over the same radio</li>
+      <li>coldplug's progress dots never appeared on the default boot entry - the one everyone actually boots from - because they were gated behind a flag that entry always sets</li>
+      <li>two real package-manager conflicts fixed: ninja and btop both vendored googletest libraries that collided with each other, and every desktop profile collided with the plain foot terminal package's own default config</li>
+    </ul>
+    <p>verified on a real arctic-install target booted through its own bootloader: boot to login prompt ~5.6s, login to shell ~2s</p>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/3-SS/Arctic-linux-3-SS.iso">Download Alpha 3 SS</a>
+    <div class="sha">sha256 <code>a95be074c668ebfd1749b9c191d7a246e63890676c21fb8ad3a6b8457c7af462</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 2.5</h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
     <ul>
       <li>the boot could look hung for twenty seconds with no warning - the coldplug step walks every modalias under /sys and modprobes each one serially, several hundred on real hardware, printing nothing the whole time</li>
@@ -205,7 +221,7 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-a2.5.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-3-SS.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
   </section>
