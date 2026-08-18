@@ -26,214 +26,27 @@
   </header>
 
   <section>
+  <p style="color:#7f92b0;font-size:14px;">Older releases were pulled from this
+  list - they claimed a maturity the distro was not at. This is A1 TESTING:
+  the distro is being put together faster than it can be verified, and the
+  version label says so honestly instead of pretending otherwise.</p>
+
   <div class="release">
-    <h3>Alpha 3.1 SS<span class="tag">latest</span></h3>
+    <h3>A1 TESTING<span class="tag">latest</span></h3>
     <p class="when">x86_64 &middot; 696 MiB &middot; live image and installer</p>
     <ul>
-      <li>a real install still behaved like the live image: the first-login greeting told you to run arctic-install again, wifi-connect reported "no networks found" against real hardware in range, and kernel-module coldplug took the full ~30s the live ISO does not have</li>
-      <li>all three were the same bug: arctic-base and alpm bootstrap through a separate packaging step that reads the source tree directly, not the normal recipe pipeline mkiso's live ISO build already used - so every fix landed on the live ISO and never reached a real arctic-install target, because that separate step had not been rerun since before any of Alpha 3 SS's fixes existed</li>
-      <li>rebuilt and republished from the current source tree - a fresh install now gets the same rc.boot, wifi-connect, and first-boot state the live ISO already had</li>
+      <li>a real install could still behave like the live image: the first-login greeting could tell you to run arctic-install again, wifi-connect could report "no networks found" against real hardware in range, and kernel-module coldplug could take the full ~30s the live ISO does not have</li>
+      <li>all three were the same bug: arctic-base and alpm bootstrap through a separate packaging step that reads the source tree directly, not the normal recipe pipeline the live ISO build already used - so a fix could land on the live ISO and never reach a real arctic-install target if that separate step was not rerun since</li>
+      <li>rebuilt and republished from the current source tree - a fresh install now gets the same rc.boot, wifi-connect, and first-boot state the live ISO already has</li>
     </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/3.1-SS/Arctic-linux-3.1-SS.iso">Download Alpha 3.1 SS</a>
-    <div class="sha">sha256 <code>5b389f766731e9b1abe65164cca545509c548737a2cf01bfff4f706b6309253c</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 3 SS</h3>
-    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
-    <ul>
-      <li>new version scheme: main.bigfix.smallfix plus a stability suffix (U/VS/S/SS - SS is super stable, the top of the scale, not a lesser tier than plain "stable"). This release closes out everything since Alpha 2 under the old aN.NN numbering</li>
-      <li>clang could not run at all on a freshly installed system - libc++/libc++abi/libunwind install into a target-triple subdirectory by LLVM's own CMake defaults, and nothing pointed the dynamic linker at it, so every source build (alpm add -s) failed before compiling a single line. This was masked all cycle by the sandboxed build host's own library search path bleeding through its bind mount; a real arctic-install target with no host underneath caught it</li>
-      <li>every fresh btrfs install kernel-panicked ("Attempted to kill init!") - the initramfs was missing rootflags=subvol=@ on the kernel command line</li>
-      <li>nmtui shipped with a hardcoded build-host path instead of a real libnewt.so soname and could not start; NetworkManager and wifi-connect no longer fight over the same radio</li>
-      <li>coldplug's progress dots never appeared on the default boot entry - the one everyone actually boots from - because they were gated behind a flag that entry always sets</li>
-      <li>two real package-manager conflicts fixed: ninja and btop both vendored googletest libraries that collided with each other, and every desktop profile collided with the plain foot terminal package's own default config</li>
-    </ul>
-    <p>verified on a real arctic-install target booted through its own bootloader: boot to login prompt ~5.6s, login to shell ~2s</p>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/3-SS/Arctic-linux-3-SS.iso">Download Alpha 3 SS</a>
-    <div class="sha">sha256 <code>a95be074c668ebfd1749b9c191d7a246e63890676c21fb8ad3a6b8457c7af462</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 2.5</h3>
-    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
-    <ul>
-      <li>the boot could look hung for twenty seconds with no warning - the coldplug step walks every modalias under /sys and modprobes each one serially, several hundred on real hardware, printing nothing the whole time</li>
-      <li>it is backgrounded now and prints a dot once a second while it runs, the same way wifi-connect's own silent scan already does</li>
-      <li>PAM is packaged - library and the standard module set, nothing built against it yet, busybox's login and su need no authentication stack and stay exactly as they are</li>
-      <li>this is what unblocks ly and anything else that wants PAM, without touching what already works</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2.5/Arctic-linux-a2.5.iso">Download a2.5</a>
-    <div class="sha">sha256 <code>3b6934b07f784bb4ef38d2a8a0c518dd11f009b8499942280115559ec943f94b</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 2.4</h3>
-    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
-    <ul>
-      <li>a fresh install could never get onto wireless: iw was on the live image but never landed on the installed system, so first boot had wpa_supplicant and nothing that could scan for a network to use it with</li>
-      <li>iw and wireless-regdb are installed onto the target now, and installing network tools is no longer optional - a machine with no network path is a worse failure than stopping the install while the medium is still in the drive</li>
-      <li>arctic-install fetches repositories itself, first, rather than running against whatever the live session's index happened to already be</li>
-      <li>a failed install left the disk mounted, so a retry hit mke2fs refusing to format it - the target is unmounted before formatting and on any failure now</li>
-      <li>the prompt is one line, not two - the arrow is the end of the line, not a line of its own below it</li>
-      <li>tab completion works without a hidden, unanswerable prompt about directory permissions on first boot</li>
-      <li>the first-login message has no mascot, matching the live session</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2.4/Arctic-linux-a2.4.iso">Download a2.4</a>
-    <div class="sha">sha256 <code>4f563f49d30fb3f1e8673aec9afead93618fba9c4dca49b53a907452730cf65a</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 2.3</h3>
-    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
-    <ul>
-      <li>the installer was throwing away its own error - target_alpm ran alpm with no output capture at all, so every failing step's log had nothing beyond the step name, and "the base system failed to install" was the entire post-mortem whatever actually went wrong</li>
-      <li>alpm's output is captured into the install log now, and a failure prints the last twelve lines of it instead of the one sentence it was called with</li>
-      <li>install.conf's commented A_INIT example read initialization, the init that has been known to freeze at boot since a2.2; it reads busybox, the actual default, with a note on why</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2.3/Arctic-linux-a2.3.iso">Download a2.3</a>
-    <div class="sha">sha256 <code>1fc2f8c26d4f430e0daef13ca4bd414f8dbbe02370532491bb5aa66b62545807</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 2.2</h3>
-    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
-    <ul>
-      <li>no installed system could be logged into: util-linux-libs, a package whose own name says libraries only, shipped util-linux's entire program set including /bin/login, which links libpam over busybox's login applet which links nothing</li>
-      <li>every base install pulls it in for libblkid and libmount, so every install replaced a working login with one that could not start - it builds --disable-all-programs now and ships 45 files, none of them a program</li>
-      <li>dwm died on libharfbuzz.so.0 - freetype links it and never declared it</li>
-      <li>every installed machine called itself Alpha 1.1: arctic-install carried its own version literal and copied it into the installed system's release file, so the boot banner said so on every boot</li>
-      <li>the boot banner is gone, and a service line is now [ done ], [ fail ] or [ skip ] with no elapsed time</li>
-      <li>initialization is no longer the default init - a machine installed with it froze partway through boot and never reached a login; busybox is the default and initialization is a deliberate choice</li>
-      <li>limine's violet backdrop, which read as a pink wash behind the boot menu, matches the terminal background</li>
-      <li>the ASCII penguin is gone from the live session</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2.2/Arctic-linux-a2.2.iso">Download a2.2</a>
-    <div class="sha">sha256 <code>77bda9785d75f4d2cdecf66ee9d63a6a163867a721deaabf9455e86cbb0eaa03</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 2.1</h3>
-    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer &middot; <strong>not fully tested</strong></p>
-    <ul>
-      <li>Alpha 2 fixed wireless and then broke it a second way: the supplicant was invoked with -f to capture a log, and -f is compiled in by CONFIG_DEBUG_FILE which this build does not set</li>
-      <li>an unknown option makes wpa_supplicant print its usage and exit without ever touching the radio, so association was never attempted - and the log the failure printed was that usage text</li>
-      <li>the option had been checked with wpa_supplicant -h on the build host, whose build does accept -f; flags are checked against the binary Arctic ships now</li>
-      <li>a supplicant that never started counted as started, because -B forks and the exit status says nothing about whether it survived - the control socket and the process are checked now</li>
-      <li>udhcpc names its script explicitly rather than relying on a compiled-in default, and its output goes to a log instead of /dev/null</li>
-      <li>everything from Alpha 2 is still here: the wpa_passphrase fix, the missing ctrl_interface, the regulatory database, and root=UUID= which is what lets an installed system boot at all</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2.1/Arctic-linux-a2.1.iso">Download a2.1</a>
-    <div class="sha">sha256 <code>cadf9cb207973d8f57a71bafeb6d425b843959ab5275a49ae97bf13bd65a547f</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 2</h3>
-    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer &middot; <strong>not fully tested</strong></p>
-    <ul>
-      <li>wireless could never have associated on any network - wpa_passphrase reading from a pipe exits 1 without writing anything, so the config had no network block in it at all and the 30s timeout blamed a passphrase that was always correct</li>
-      <li>nothing wrote a ctrl_interface, so wpa_cli could never connect and the error told you to run a command that could not work</li>
-      <li>no installed system could boot: the installer wrote root=PARTUUID= and busybox findfs implements LABEL= and UUID= only, so every install finished, reported success, and stopped in the initramfs shell</li>
-      <li>fstab had the same problem, which is why /boot would not mount either; both are UUID= now and the initramfs falls back to LABEL=arctic-root so older installs come up</li>
-      <li>the image carries a regulatory database - without one the kernel sits in world domain 00 where most 5 GHz channels are receive-only, so an access point shows in a scan and the card may not transmit to it</li>
-      <li>the firewall had no package at all: nftables fell back to compiling inside the target and failed, and the install reported success anyway</li>
-      <li>the boot was right-aligned against column 80 of a 240-column console, and every service reported t=0.0s</li>
-      <li>the live session prints how to install Arctic instead of a hardware inventory</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a2/Arctic-linux-a2.iso">Download a2</a>
-    <div class="sha">sha256 <code>b4972b233eda64f30717d8271f2787b752f3315a326d40f2836f6e56491fdf2b</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 1.24</h3>
-    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
-    <ul>
-      <li>a boot partition that failed to mount was ignored - the bootloader went into a directory on the root filesystem and the machine did not boot</li>
-      <li>the compiler is on the image: clang and lld, no download first</li>
-      <li>alpm speaks one language - add installs, rem removes, repo add adds a repository; ins and del are gone</li>
-      <li>llvm shipped llvm-lit's count and not, which toybox owns, so anything needing mesa stopped on a conflict</li>
-      <li>mesa and vulkan-loader install; graphics failed entirely before</li>
-      <li>wireless waits for the link before asking for an address, and retries the lease</li>
-      <li>the network you install over is carried into the installed system, beside the wired one</li>
-      <li>arcticfetch is off the login, zsh loads autosuggestions only, and the boot banner is a rule rather than a row of punctuation</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.24/Arctic-linux-a1.24.iso">Download a1.24</a>
-    <div class="sha">sha256 <code>180f4c03859c661cb22aad750a0e92e0e61dbae7319c110032594b8a309504a9</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 1.23</h3>
-    <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
-    <ul>
-      <li>the compiler is on the image - clang and lld, so it can build without downloading one first</li>
-      <li>alpm speaks one language: add installs, rem removes, repo add adds a repository - ins and del are gone</li>
-      <li>llvm shipped llvm-lit's count and not, which toybox owns, so installing anything needing mesa stopped dead</li>
-      <li>mesa and vulkan-loader install now; graphics failed entirely before</li>
-      <li>wireless waits for the link before asking for an address - a correct passphrase used to end in DHCP failed</li>
-      <li>the network you install over is carried into the installed system, beside the wired one</li>
-      <li>arcticfetch is off the login, and zsh loads autosuggestions and nothing else</li>
-      <li>the boot banner is a rule and a title rather than a full-width row of punctuation</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.23/Arctic-linux-a1.23.iso">Download a1.23</a>
-    <div class="sha">sha256 <code>996af053e5033c08202434468bc3fe104a2ac01107c9c8e29343267605f6d353</code></div>
-  </div>
-
-
-  <div class="release">
-    <h3>Alpha 1.21</h3>
-    <p class="when">x86_64 &middot; 492 MiB &middot; live image and installer</p>
-    <ul>
-      <li>alpm add installs and alpm rem removes</li>
-      <li>alpm rem -a takes what the package left behind, -d its dependencies, -f forces it</li>
-      <li>repositories are alpm repo add &lt;url&gt;</li>
-      <li>mesa installed its drivers into /usr/lib64, which does not exist here - nothing could load them</li>
-      <li>vulkan-loader is packaged; the drivers are of no use without it</li>
-      <li>mesa declares the Vulkan and VA drivers it contains, so asking for vulkan-radeon resolves</li>
-      <li>choosing nvidia says the proprietary driver is not packaged instead of installing nothing silently</li>
-      <li>the old verbs - ins, del - still work</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.21/Arctic-linux-a1.21.iso">Download a1.21</a>
-    <div class="sha">sha256 <code>1a5309744ac26354a913cff811cc98346e23d6d5e6acf48e4791d605c4300fea</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 1.2</h3>
-    <p class="when">x86_64 &middot; 382 MiB &middot; live image and installer</p>
-    <ul>
-      <li>an installed machine had an address and a route but no resolver, so every lookup failed</li>
-      <li>wifi-connect scans, lists what is in range and takes the passphrase masked</li>
-      <li>iw is on the image - nothing there could list a network before</li>
-      <li>mesa 26.0.2 with the Intel drivers, which were missing entirely</li>
-      <li>the Xfce 4.20 desktop, openbox and icewm are packaged</li>
-      <li>initialization, the fork of nitro, is the default init</li>
-      <li>the installer asks before writing a bootloader and names the partition</li>
-      <li>nvidia and nouveau are configured, with a reboot notice</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.2/Arctic-linux-a1.2.iso">Download a1.2</a>
-    <div class="sha">sha256 <code>387c84d9b22199c1b3e1e481c1e280f29c7077bc940b970566989c6fd427a1d9</code></div>
-  </div>
-
-  <div class="release">
-    <h3>Alpha 1.1</h3>
-    <p class="when">x86_64 &middot; 381 MiB &middot; live image and installer</p>
-    <ul>
-      <li>the install runs end to end from the network repositories</li>
-      <li>the live session could come up with no network at all</li>
-      <li>lzo shipped no shared library, so mkfs.btrfs could not start</li>
-      <li>the repository indexes were weeks out of date behind a CDN</li>
-      <li>alpm system upgrade and alpm system fix</li>
-      <li>toybox claimed 27 commands other packages own - the install stopped at /usr/bin/blkid</li>
-      <li>wpa_supplicant pulled OpenSSL in beside libressl, leaving no curl and no NetworkManager</li>
-      <li>the live image's wget was toybox's, which cannot speak https</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/a1.1/Arctic-linux-a1.1.iso">Download a1.1</a>
-    <div class="sha">sha256 <code>89735185b8d203fbafbb7d90ddf6edc84b1f62f174959f6121a0502ac2c917d3</code></div>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/A1-TESTING/Arctic-linux-A1-TESTING.iso">Download A1 TESTING</a>
+    <div class="sha">sha256 <code>b76f31e162a1cc05e4189976c5c5f134ad91b09b85d3eef48ab7a84266a34fe5</code></div>
   </div>
   </section>
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-3.1-SS.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-A1-TESTING.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
   </section>
