@@ -27,7 +27,19 @@
 
   <section>
   <div class="release">
-    <h3>Alpha 3 SS<span class="tag">latest</span></h3>
+    <h3>Alpha 3.1 SS<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 696 MiB &middot; live image and installer</p>
+    <ul>
+      <li>a real install still behaved like the live image: the first-login greeting told you to run arctic-install again, wifi-connect reported "no networks found" against real hardware in range, and kernel-module coldplug took the full ~30s the live ISO does not have</li>
+      <li>all three were the same bug: arctic-base and alpm bootstrap through a separate packaging step that reads the source tree directly, not the normal recipe pipeline mkiso's live ISO build already used - so every fix landed on the live ISO and never reached a real arctic-install target, because that separate step had not been rerun since before any of Alpha 3 SS's fixes existed</li>
+      <li>rebuilt and republished from the current source tree - a fresh install now gets the same rc.boot, wifi-connect, and first-boot state the live ISO already had</li>
+    </ul>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/3.1-SS/Arctic-linux-3.1-SS.iso">Download Alpha 3.1 SS</a>
+    <div class="sha">sha256 <code>5b389f766731e9b1abe65164cca545509c548737a2cf01bfff4f706b6309253c</code></div>
+  </div>
+
+  <div class="release">
+    <h3>Alpha 3 SS</h3>
     <p class="when">x86_64 &middot; 695 MiB &middot; live image and installer</p>
     <ul>
       <li>new version scheme: main.bigfix.smallfix plus a stability suffix (U/VS/S/SS - SS is super stable, the top of the scale, not a lesser tier than plain "stable"). This release closes out everything since Alpha 2 under the old aN.NN numbering</li>
@@ -221,7 +233,7 @@
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-3-SS.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-3.1-SS.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
   </section>
