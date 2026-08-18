@@ -38,6 +38,7 @@
       <li>a real install could still behave like the live image: the first-login greeting could tell you to run arctic-install again, wifi-connect could report "no networks found" against real hardware in range, and kernel-module coldplug could take the full ~30s the live ISO does not have</li>
       <li>all three were the same bug: arctic-base and alpm bootstrap through a separate packaging step that reads the source tree directly, not the normal recipe pipeline the live ISO build already used - so a fix could land on the live ISO and never reach a real arctic-install target if that separate step was not rerun since</li>
       <li>rebuilt and republished from the current source tree - a fresh install now gets the same rc.boot, wifi-connect, and first-boot state the live ISO already has</li>
+      <li> wifi has some minor issues in this release but will be fixed in the next</li>
     </ul>
     <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/A1-TESTING/Arctic-linux-A1-TESTING.iso">Download A1 TESTING</a>
     <div class="sha">sha256 <code>b76f31e162a1cc05e4189976c5c5f134ad91b09b85d3eef48ab7a84266a34fe5</code></div>
