@@ -33,15 +33,18 @@
 
   <div class="release">
     <h3>A1 TESTING<span class="tag">latest</span></h3>
-    <p class="when">x86_64 &middot; 696 MiB &middot; live image and installer</p>
+    <p class="when">x86_64 &middot; 696 MiB &middot; live image and installer &middot; <strong>updated in place, same version</strong></p>
     <ul>
-      <li>a real install could still behave like the live image: the first-login greeting could tell you to run arctic-install again, wifi-connect could report "no networks found" against real hardware in range, and kernel-module coldplug could take the full ~30s the live ISO does not have</li>
-      <li>all three were the same bug: arctic-base and alpm bootstrap through a separate packaging step that reads the source tree directly, not the normal recipe pipeline the live ISO build already used - so a fix could land on the live ISO and never reach a real arctic-install target if that separate step was not rerun since</li>
-      <li>rebuilt and republished from the current source tree - a fresh install now gets the same rc.boot, wifi-connect, and first-boot state the live ISO already has</li>
-      <li> wifi has some minor issues in this release but will be fixed in the next</li>
+      <li>networking update: the real cause of "wifi works on the live ISO, not on a real install" - the installer tried to fetch the full linux-firmware package from the binary mirror, which is well over the mirror's free-tier size limit and 404s on every real install, silently, so the install reported success with zero wireless firmware on the target. The wireless driver still loaded and the interface still existed; the radio itself could never come up. Fixed by copying the live medium's own curated firmware set directly onto the target - confirmed 490 firmware files now land on a fresh install</li>
+      <li>a saved wifi-connect profile now reconnects automatically on every boot (a new rc.d/wifi service, the same wpa_supplicant + udhcpc pairing the live image uses) - nothing did this before</li>
+      <li>wifi is unblocked via the kernel's own rfkill interface before scanning, and "no networks found" now prints the actual rfkill/regulatory state instead of a single guess</li>
+      <li>wifi-connect no longer tells an already-installed system to go install itself</li>
+      <li>the installed system's Limine bootloader had a bright purple backdrop and a mismatched terminal palette - matched to the live image's own theme exactly</li>
+      <li>kernel-module loading during boot runs in batches of 8 instead of one at a time - busybox's modprobe has no cache between calls, so several dozen unique driver aliases on real hardware was most of what made that step slow</li>
+      <li>alpm ins, del and the other pre-rename verbs work as plain aliases again instead of stopping with an error</li>
     </ul>
     <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/A1-TESTING/Arctic-linux-A1-TESTING.iso">Download A1 TESTING</a>
-    <div class="sha">sha256 <code>b76f31e162a1cc05e4189976c5c5f134ad91b09b85d3eef48ab7a84266a34fe5</code></div>
+    <div class="sha">sha256 <code>c12e02a733b399ea37ac5fef191b95772ceb99f14498592e94ad34b92db31a6c</code></div>
   </div>
   </section>
 
