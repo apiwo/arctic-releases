@@ -26,31 +26,34 @@
   </header>
 
   <section>
-  <p style="color:#7f92b0;font-size:14px;">Older releases were pulled from this
-  list - they claimed a maturity the distro was not at. This is A1 TESTING:
-  the distro is being put together faster than it can be verified, and the
-  version label says so honestly instead of pretending otherwise.</p>
+  <p style="color:#7f92b0;font-size:14px;">A1 TESTING has been pulled from
+  this list: it shipped broken on real hardware - wifi never worked on a
+  real install, only the live image; the chroot backspace fix didn't take;
+  arctic-shell couldn't run anything it had just installed. This is A1: no
+  qualifier claiming more verification than it has actually had, replacing
+  the broken build rather than adding a second testing label on top of
+  it.</p>
 
   <div class="release">
-    <h3>A1 TESTING<span class="tag">latest</span></h3>
-    <p class="when">x86_64 &middot; 696 MiB &middot; live image and installer &middot; <strong>updated in place, same version</strong></p>
+    <h3>A1<span class="tag">latest</span></h3>
+    <p class="when">x86_64 &middot; 696 MiB &middot; live image and installer</p>
     <ul>
-      <li>networking update: the real cause of "wifi works on the live ISO, not on a real install" - the installer tried to fetch the full linux-firmware package from the binary mirror, which is well over the mirror's free-tier size limit and 404s on every real install, silently, so the install reported success with zero wireless firmware on the target. The wireless driver still loaded and the interface still existed; the radio itself could never come up. Fixed by copying the live medium's own curated firmware set directly onto the target - confirmed 490 firmware files now land on a fresh install</li>
-      <li>a saved wifi-connect profile now reconnects automatically on every boot (a new rc.d/wifi service, the same wpa_supplicant + udhcpc pairing the live image uses) - nothing did this before</li>
-      <li>wifi is unblocked via the kernel's own rfkill interface before scanning, and "no networks found" now prints the actual rfkill/regulatory state instead of a single guess</li>
-      <li>wifi-connect no longer tells an already-installed system to go install itself</li>
-      <li>the installed system's Limine bootloader had a bright purple backdrop and a mismatched terminal palette - matched to the live image's own theme exactly</li>
-      <li>kernel-module loading during boot runs in batches of 8 instead of one at a time - busybox's modprobe has no cache between calls, so several dozen unique driver aliases on real hardware was most of what made that step slow</li>
-      <li>alpm ins, del and the other pre-rename verbs work as plain aliases again instead of stopping with an error</li>
+      <li>wifi on a real install had three separate causes, all fixed: linux-firmware never actually landed on the target (the mirror's size limit 404d it silently, now copied from the live medium directly), wifi-connect had no privilege handling for the account arctic-install creates and "Operation not permitted" read as "no networks found - move closer" (it re-execs itself through doas now), and a soft-blocked radio looked like no hardware at all (rfkill is unblocked before every scan)</li>
+      <li>backspace inside arctic-chroot still moved the cursor forward after an earlier fix for exactly that - zsh's own bindkey fix was undone eight lines later by a pre-existing binding that bindkey applies in order; the stray line is gone</li>
+      <li>arctic-shell dropped you into an environment where id, which, ls and grep all failed with a missing-library error immediately after reporting a clean install (glibc dropped crypt(), the environment never got the package that provides it); and a session killed outright left mounts behind that had to be found by hand from lsblk - every invocation now sweeps and cleans those up on its own</li>
+      <li>alpm system fix - which conflated "what's pending" with "apply it" - is now three verbs: system get, system check (a real dry run), system upgrade (applies everything, including a system.conf reconciliation at the end)</li>
+      <li>networking, the graphics driver, microcode and boot timeout join hostname/packages/services as things system.conf declares and arctic-rebuild reconciles - install.conf's equivalents used to apply once and never again</li>
+      <li>A_NTP defaulted to on and enabled a service (ntpd) nothing packages yet; off by default now</li>
+      <li>boot services start together and are waited on afterward instead of one at a time, so a slow network association no longer holds up everything after it</li>
     </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/A1-TESTING/Arctic-linux-A1-TESTING.iso">Download A1 TESTING</a>
-    <div class="sha">sha256 <code>c12e02a733b399ea37ac5fef191b95772ceb99f14498592e94ad34b92db31a6c</code></div>
+    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/A1/Arctic-linux-A1.iso">Download A1</a>
+    <div class="sha">sha256 <code>e968ff52e0aa644ae391d7237eab366fb06680a8d3514eefb8e4752771a6c6b7</code></div>
   </div>
   </section>
 
   <section>
     <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-A1-TESTING.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
+    <pre class="code">dd if=Arctic-linux-A1.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
     <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
     stick, with nothing needed to write it.</p>
   </section>
