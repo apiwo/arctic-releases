@@ -3,65 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Arctic Linux — releases</title>
+<title>Arctic Linux - releases</title>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
 <nav class="topbar">
-  <a href="https://arctic-linux.apiwow.net">main page</a>
-  <a href="https://pkg-arctic.apiwow.net">pkg</a>
-  <a href="https://ports-arctic.apiwow.net">ports</a>
+  <a href="https://arctic-linux.apiwow.net">main</a>
   <a href="https://arctic-docs.apiwow.net">docs</a>
-  <a href="https://arctic-releases.apiwow.net">releases</a>
+  <a href="https://pkg-arctic.apiwow.net">packages</a>
+  <a href="https://ports-arctic.apiwow.net">ports</a>
   <a href="https://github.com/apiwo/arctic-linux">github</a>
   <a href="https://codeberg.org/apiwo/arctic-linux">codeberg</a>
 </nav>
 
 <div class="wrap">
-
   <header class="hero">
     <h1>releases</h1>
-    <span class="tagline">every Arctic Linux image, newest first, and what changed in each</span>
   </header>
 
   <section>
-  <p style="color:#7f92b0;font-size:14px;">A1 TESTING has been pulled from
-  this list: it shipped broken on real hardware - wifi never worked on a
-  real install, only the live image; the chroot backspace fix didn't take;
-  arctic-shell couldn't run anything it had just installed. This is A1: no
-  qualifier claiming more verification than it has actually had, replacing
-  the broken build rather than adding a second testing label on top of
-  it.</p>
-
-  <div class="release">
-    <h3>A1<span class="tag">latest</span></h3>
-    <p class="when">x86_64 &middot; 696 MiB &middot; live image and installer</p>
-    <ul>
-      <li>wifi on a real install had three separate causes, all fixed: linux-firmware never actually landed on the target (the mirror's size limit 404d it silently, now copied from the live medium directly), wifi-connect had no privilege handling for the account arctic-install creates and "Operation not permitted" read as "no networks found - move closer" (it re-execs itself through doas now), and a soft-blocked radio looked like no hardware at all (rfkill is unblocked before every scan)</li>
-      <li>backspace inside arctic-chroot still moved the cursor forward after an earlier fix for exactly that - zsh's own bindkey fix was undone eight lines later by a pre-existing binding that bindkey applies in order; the stray line is gone</li>
-      <li>arctic-shell dropped you into an environment where id, which, ls and grep all failed with a missing-library error immediately after reporting a clean install (glibc dropped crypt(), the environment never got the package that provides it); and a session killed outright left mounts behind that had to be found by hand from lsblk - every invocation now sweeps and cleans those up on its own</li>
-      <li>alpm system fix - which conflated "what's pending" with "apply it" - is now three verbs: system get, system check (a real dry run), system upgrade (applies everything, including a system.conf reconciliation at the end)</li>
-      <li>networking, the graphics driver, microcode and boot timeout join hostname/packages/services as things system.conf declares and arctic-rebuild reconciles - install.conf's equivalents used to apply once and never again</li>
-      <li>A_NTP defaulted to on and enabled a service (ntpd) nothing packages yet; off by default now</li>
-      <li>boot services start together and are waited on afterward instead of one at a time, so a slow network association no longer holds up everything after it</li>
-    </ul>
-    <a class="btn-download" href="https://github.com/apiwo/arctic-linux/releases/download/A1/Arctic-linux-A1.iso">Download A1</a>
-    <div class="sha">sha256 <code>e968ff52e0aa644ae391d7237eab366fb06680a8d3514eefb8e4752771a6c6b7</code></div>
-  </div>
-  </section>
-
-  <section>
-    <h2>writing one</h2>
-    <pre class="code">dd if=Arctic-linux-A1.iso of=/dev/sdX bs=4M status=progress conv=fsync</pre>
-    <p>it is a hybrid image — it boots on BIOS and UEFI, from a disc or a USB
-    stick, with nothing needed to write it.</p>
+    <p>Releases, changelogs and downloads now live on
+    <a href="https://github.com/apiwo/arctic-linux/releases">GitHub Releases</a>
+    directly, rather than a separate hand-maintained page.</p>
   </section>
 
   <footer>
-    arctic's own code is BSD-2-Clause. packaged software keeps its own licence.
+    Arctic's own code is BSD-2-Clause. Packaged software keeps its own license.
   </footer>
-
 </div>
 </body>
 </html>
