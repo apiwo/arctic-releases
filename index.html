@@ -26,26 +26,42 @@
   <section id="latest">
     <h2>latest - 2026.09.01</h2>
     <p class="status-line">Published 2026-09-02. GPL-3.0-or-later on ScrapLinux's own code.
-    <strong>s66</strong> (s6 + Obarun's 66 as PID1) is the new default init, replacing busybox - <code>def</code>
-    (busybox) and <code>openrc</code> remain fully supported flavors. Full multilib/32-bit
-    support and Steam. See the <a href="https://github.com/apiwo/scraplinux/releases/tag/v2026.09.01">full
-    release notes</a> for the complete list, including one disclosed gap in the <code>openrc</code>
-    tarball.</p>
+    <strong>s66</strong> (s6 + Obarun's 66 as PID1) is the new default init, replacing busybox -
+    <code>busybox</code> and <code>openrc</code> remain fully supported flavors. Full multilib/32-bit
+    support and Steam. <code>poweroff</code> and <code>reboot</code> now actually complete on s66,
+    <code>udevadm</code> works again so wifi drivers load at boot, and every tarball ships
+    <code>libcrypt.so.2</code> and <code>libpam.so.0</code> - the gap previously disclosed against the
+    <code>openrc</code> tarball is closed. See the
+    <a href="https://github.com/apiwo/scraplinux/releases/tag/v2026.09.01">full release notes</a>.</p>
 
     <h3>Live ISO</h3>
     <p>Boot-tested end to end in QEMU - a real, install-by-hand live environment (format/extract/chroot
     yourself, same as the manual tarball path below), not a guided installer. Includes a real
-    build toolchain. Login: <code>root</code> or <code>live</code>, password <code>scrap</code> either way.</p>
+    build toolchain. Login: <code>root</code> or <code>live</code>, password <code>scraps</code> either way.</p>
     <ul>
-      <li><a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-live.iso">scraplinux-live.iso</a> (500 MiB) - <a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-live.iso.sha256">sha256</a></li>
+      <li><a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-live.iso">scraplinux-live.iso</a> (959 MiB) - <a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-live.iso.sha256">sha256</a></li>
     </ul>
 
-    <h3>Tarballs (manual install)</h3>
+    <h3>Tarballs</h3>
+
+    <h4>Minimal tarballs</h4>
+    <p>The same base system three times over, differing only in what runs as PID 1.
+    Unpack onto a prepared root, then <code>scraps add</code> a kernel and a
+    bootloader - there is no installer.</p>
     <ul>
-      <li><a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-s66-tarball.tar.xz">s66 tarball</a> (s6+66 init, the default) - <a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-s66-tarball.tar.xz.sha256">sha256</a></li>
-      <li><a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-def-tarball.tar.xz">def tarball</a> (busybox init) - <a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-def-tarball.tar.xz.sha256">sha256</a></li>
-      <li><a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-openrc-tarball.tar.xz">openrc tarball</a> (missing <code>libcrypt.so.2</code>/<code>libpam.so.0</code> - see release notes) - <a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-openrc-tarball.tar.xz.sha256">sha256</a></li>
+      <li><a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-s66-tarball.tar.xz">s66 tarball</a> - s6 with Obarun's 66 on top, the default. Supervised services, dependency-ordered boot. <a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-s66-tarball.tar.xz.sha256">sha256</a></li>
+      <li><a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-busybox-tarball.tar.xz">busybox tarball</a> - busybox init driven by <code>/etc/inittab</code> and <code>/etc/rc.boot</code>. The smallest and most predictable of the three. (Called the "def" tarball before this release.) <a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-busybox-tarball.tar.xz.sha256">sha256</a></li>
+      <li><a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-openrc-tarball.tar.xz">openrc tarball</a> - OpenRC, if you want runlevels and <code>rc-service</code> rather than a supervision tree. <a href="https://github.com/apiwo/scraplinux/releases/download/v2026.09.01/scraplinux-openrc-tarball.tar.xz.sha256">sha256</a></li>
     </ul>
+
+    <h4>i3wl tarball (s66)</h4>
+    <p>The s66 base with <a href="https://ports-scraplinux.apiwow.net/ALL/base/i3wl/recipe">i3wl</a>
+    already installed - a dwl fork with i3-style binary-tree tiling, a
+    StatusNotifierItem tray and a matching bar, started with <code>i3wl</code>
+    or picked from a display manager's session list. Not published yet: the
+    port builds, but its binary package is not in the mirror, so the tarball
+    would be an s66 tarball under a different name. It lands once that package
+    is built.</p>
     <p><a href="https://scraplinux-docs.apiwow.net/install.html">Install guide →</a></p>
   </section>
 
